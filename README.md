@@ -1,2 +1,3 @@
-# tiner-work
-A lightweight Human Resources Management System built in C 
+# rh_pim
+
+A description of this project.

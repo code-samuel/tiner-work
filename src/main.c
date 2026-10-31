@@ -1,26 +1,20 @@
-#include <mysql/mysql.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "config.h"
+#include "rh_pim-application.h"
+#include <gio/gio.h>
+#include <glib/gi18n.h>
 
-int main() {
-  MYSQL *conexao;
+int main(int argc, char *argv[]) {
+  g_autoptr(RhPimApplication) app = NULL;
+  int ret;
 
-  conexao = mysql_init(NULL);
-  if (conexao == NULL) {
-    fprintf(stderr, "Erro ao inicializar a estrutura do MySQL!\n");
-    return 1;
-  }
+  bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
 
-  if (mysql_real_connect(conexao, "127.0.0.1", "root", "", "testeMYSQL", 3306,
-                         NULL, 0) == NULL) {
-    fprintf(stderr, "Erro de conexao: %s\n", mysql_error(conexao));
-    mysql_close(conexao);
-    return 1;
-  }
+  app = rh_pim_application_new(
+      "org.gnome.Example",
+      G_APPLICATION_DEFAULT_FLAGS); // Nome da função atualizado
+  ret = g_application_run(G_APPLICATION(app), argc, argv);
 
-  printf("Sucesso! Conectado ao MySQL do Docker com sucesso!\n");
-
-  mysql_close(conexao);
-
-  return 0;
+  return ret;
 }
