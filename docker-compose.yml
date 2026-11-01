@@ -9,8 +9,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./Database.sql:/docker-entrypoint-initdb.d/Database.sql
+      # Aponta para o arquivo que está na pasta data/
+      - ./data/Database.sql:/docker-entrypoint-initdb.d/Database.sql
       - mysql_data:/var/lib/mysql
 
 volumes:
-  mysql_data: # Volume nomeado para salvar os dados no disco host
+  mysql_data:
