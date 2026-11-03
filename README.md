@@ -20,14 +20,14 @@ meson setup build
 ninja -C build
 ```
 
-## Database Setup (Docker) 
+### 4. Database Setup (Docker) 
 Start the MySQL database service using Docker Compose. It will automatically initialize the schema using **Database.sql**
 
 ```bash
 docker compose up -d
 ```
 
-### 4. Run the application
+### 5. Run the application
 ```bash
 ./build/src/rh_pim
 ```
