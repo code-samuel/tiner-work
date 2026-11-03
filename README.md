@@ -1,12 +1,6 @@
 # Tiner Work
 
 Tiner Work is a lightweight Human Resources Management System built in C with GTK interface
-## Database Setup (Docker) 
-Start the MySQL database service using Docker Compose. It will automatically initialize the schema using **Database.sql**
-
-```bash
-docker compose up -d
-```
 
 ## How to Use It
 
@@ -24,6 +18,13 @@ meson setup build
 ### 3. Compile the project
 ```bash
 ninja -C build
+```
+
+## Database Setup (Docker) 
+Start the MySQL database service using Docker Compose. It will automatically initialize the schema using **Database.sql**
+
+```bash
+docker compose up -d
 ```
 
 ### 4. Run the application
