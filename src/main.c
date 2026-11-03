@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
 
   bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
   bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  
   textdomain(GETTEXT_PACKAGE);
-
   app = rh_pim_application_new(
       "org.gnome.Example",
       G_APPLICATION_DEFAULT_FLAGS); // Nome da função atualizado
