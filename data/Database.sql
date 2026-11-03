@@ -28,19 +28,21 @@ CREATE TABLE IF NOT EXISTS Escalas (
     CONSTRAINT pk_escalas_id PRIMARY KEY (id)
 );
 
+-- ON DELETE CASCADE: ao excluir um colaborador, o contrato, os pontos e os
+-- holerites dele são excluídos junto (senão o MySQL bloqueia o DELETE).
 CREATE TABLE IF NOT EXISTS Contratos (
     id INT NOT NULL AUTO_INCREMENT,
     matricula VARCHAR(20) UNIQUE,
     cargo VARCHAR(100),
     data_admissao DATE,
     tempo_contrato INT,
-    salario DECIMAL(10,2), 
+    salario DECIMAL(10,2),
     colaborador_id INT,
     empresa_id INT,
     escala_id INT,
     CONSTRAINT pk_contrato_id PRIMARY KEY(id),
-    CONSTRAINT fk_colaborador FOREIGN KEY (colaborador_id) REFERENCES Colaboradores(id),
-    CONSTRAINT fk_empresa FOREIGN KEY (empresa_id) REFERENCES Empresas(id),    
+    CONSTRAINT fk_colaborador FOREIGN KEY (colaborador_id) REFERENCES Colaboradores(id) ON DELETE CASCADE,
+    CONSTRAINT fk_empresa FOREIGN KEY (empresa_id) REFERENCES Empresas(id),
     CONSTRAINT fk_escala FOREIGN KEY (escala_id) REFERENCES Escalas(id)
 );
 
@@ -53,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Ponto (
     saida TIME,
     CONSTRAINT pk_ponto_id PRIMARY KEY (id),
     CONSTRAINT fk_escala_id FOREIGN KEY(escala_id) REFERENCES Escalas(id),
-    CONSTRAINT fk_contrato_id FOREIGN KEY(contrato_id) REFERENCES Contratos(id)
+    CONSTRAINT fk_contrato_id FOREIGN KEY(contrato_id) REFERENCES Contratos(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Holerites (
@@ -65,5 +67,15 @@ CREATE TABLE IF NOT EXISTS Holerites (
     impostos DECIMAL(10,2),
     descontos DECIMAL(10,2),
     CONSTRAINT pk_holerite_id PRIMARY KEY(id),
-    CONSTRAINT fk_contratoholerite_id FOREIGN KEY(contrato_id) REFERENCES Contratos(id)
+    CONSTRAINT fk_contratoholerite_id FOREIGN KEY(contrato_id) REFERENCES Contratos(id) ON DELETE CASCADE
 );
+
+-- DADOS INICIAIS (o app precisa de 1 empresa e das escalas para funcionar).
+-- Este script só roda sozinho na primeira vez que o container sobe (volume vazio).
+INSERT INTO Empresas (razao_social, cnpj, segmento)
+VALUES ('TinerWork Tecnologia Ltda', '12345678000199', 'Tecnologia');
+
+INSERT INTO Escalas (descricao, carga_horaria_diaria, carga_horaria_semanal) VALUES
+    ('5x2 - 8h por dia', 8.00, 40.00),
+    ('6x1 - 7h20 por dia', 7.33, 44.00),
+    ('12x36', 12.00, 42.00);
