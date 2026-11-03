@@ -1,0 +1,8 @@
+[wrap-git]
+directory = libmariadb
+url = https://github.com/mariadb-corporation/mariadb-connector-c.git
+revision = v3.3.8
+depth = 1
+
+[provide]
+dependency_names = libmariadb, mariadb_dep
