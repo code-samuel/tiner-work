@@ -1,0 +1,41 @@
+{
+  "app-id": "org.gnome.RhPim",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "50",
+  "sdk": "org.gnome.Sdk",
+  "command": "rh_pim",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--socket=wayland",
+    "--device=dri",
+    "--share=network"
+  ],
+  "modules": [
+    {
+      "name": "libmariadb",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+        "-DCMAKE_C_FLAGS=-std=gnu11 -Wno-error"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/mariadb-corporation/mariadb-connector-c.git",
+          "tag": "v3.4.3"
+        }
+      ]
+    },
+    {
+      "name": "rh_pim",
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}
